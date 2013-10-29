@@ -4,7 +4,8 @@
   "description": "Playground for new DalekJS API",
    "dependencies": {
     "q": "~0.9.7",
-    "chai": "~1.8.1"
+    "chai": "~1.8.1",
+    "lodash": "~2.2.1"
   },
   "devDependencies": {
     "grunt": "~0.4.1"

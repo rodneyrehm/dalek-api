@@ -12,7 +12,6 @@ By API we don't only understand the public, test-facing side of things, but also
   * should they be officially registered as well?
 * how can conditional actions/assertions be integrated
   * possible push everything into a sub-`Unit`?
-* how can we improve query() chaining (so plugins don't have to care)
 
 
 ## Solved Problems ##
@@ -22,3 +21,4 @@ By API we don't only understand the public, test-facing side of things, but also
 * maintaining a single queue of promises so a simple synchronous chainable test-API can be retained
 * allowing sub-chains of actions/assertions
 * runtime arguments (for declarative access to buffer, data, etc.)
+* plugin-function-independent handling of query context
