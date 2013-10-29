@@ -1,0 +1,21 @@
+{
+  "name": "dalek-api",
+  "version": "0.0.1",
+  "description": "Playground for new DalekJS API",
+   "dependencies": {
+    "q": "~0.9.7",
+    "chai": "~1.8.1"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1"
+  },
+  "keywords": ["api-test"],
+  "author": {
+    "name": "Rodney Rehm",
+    "email": "rodney.rehm@medialize.de",
+    "url": "http://rodneyrehm.de/en/"
+  },
+  "engine": {
+    "node": ">=0.8"
+  }
+}
