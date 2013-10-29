@@ -2,11 +2,11 @@
 
 This repository is merely a playground for figuring out in which direction the API redesign of DalekJS should go.
 
-By API we don't only understand the public, test-facing side of things, but also how actions, assertions et al are managed internally. If at all possible, the changes proposed herein will *not* reflect on the public API used for actually writing tests (too much).
+By API we don't only understand the public, test-facing side of things, but also how actions, assertions et al are managed internally. If at all possible, the changes proposed herein will *not* reflect on the public API used for actually writing tests (too much). This API is handling plugins and taks scheduling - things we needed to rethink because of the current API's (massive) limitations or create in the first place.
 
 ## Breaking Changes ##
 
-* handling of `.query(selector)...end()` changes to `.query(selector)...end()`
+* handling of `.query(selector)...end()` changes to `.query(selector)...query()`
 * `Actions` object has become unnecessary (and thus removed)
 * registering actions/assertions must be done through proper functions
 
@@ -17,6 +17,8 @@ By API we don't only understand the public, test-facing side of things, but also
   * how should we call these functions?
   * should they be officially registered as well?
 * how can Assertions be made available in the existing non-Assertion namespaces on top of Unit
+* how to integrate in DalekJS (or integrate DalekJS into this API, whatever)
+
 
 ## Solved Problems ##
 
@@ -28,8 +30,6 @@ By API we don't only understand the public, test-facing side of things, but also
 * plugin-function-independent handling of query context
 * basic argument type verification
 * conditional context handling
-
-
 
 
 ## API Concepts ##
@@ -93,6 +93,7 @@ unit
   .done();
 ```
 
+
 ### Conditional Execution ###
 
 A user will most likely run a Suite against multiple browsers with varying degrees of functionality. To account for this, *conditional contexts* can be used:
@@ -111,6 +112,7 @@ unit
 ```
 
 The *query context* carries across `.conditional()` boundaries. A conditional context cannot be entered while assertion chaining is active. Conditions can be nested.
+
 
 ### Using The Buffer ###
 
