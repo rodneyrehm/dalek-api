@@ -22,3 +22,5 @@ By API we don't only understand the public, test-facing side of things, but also
 * allowing sub-chains of actions/assertions
 * runtime arguments (for declarative access to buffer, data, etc.)
 * plugin-function-independent handling of query context
+* basic argument type verification
+
