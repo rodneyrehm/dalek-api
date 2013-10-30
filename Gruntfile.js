@@ -8,7 +8,7 @@ module.exports = function(grunt) {
   grunt.initConfig({
 
     mochaTest: {
-      src: ['test/**/*.js']
+      src: ['test/**/test.*.js']
     },
 
     // linting
