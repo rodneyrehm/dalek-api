@@ -1,6 +1,8 @@
 'use strict';
 
+var helper = require('./helper.js');
 var expect = require('chai').expect;
+
 var Dalek = require('../lib/dalek.js');
 var dalek = new Dalek();
 var log = [];
@@ -26,18 +28,11 @@ describe('Query handling', function() {
     expect(log.join('|')).to.equal('');
     
     var unit = new Dalek.Unit(dalek);
-    var completed = function(buffer) {
-      try {
-        expect(log.join('|')).to.equal('action:one:.one|action:two:.two|assertion:one:.one|assertion:two:.two');
-        done();
-
-      } catch (error) {
-        done(error);
-      }
-
-    };
+    var completed = helper.expect(done, function(buffer) {
+      expect(log.join('|')).to.equal('action:one:.one|action:two:.two|assertion:one:.one|assertion:two:.two');
+    });
     
-    unit._then(completed, done);
+    unit._then(completed, helper.notRejected(done));
     unit
       .one('.one')
       .two('.two')
@@ -51,18 +46,11 @@ describe('Query handling', function() {
     expect(log.join('|')).to.equal('');
     
     var unit = new Dalek.Unit(dalek);
-    var completed = function(buffer) {
-      try {
-        expect(log.join('|')).to.equal('action:one:.query|action:two:.two|assertion:one:.query|assertion:two:.two');
-        done();
-
-      } catch (error) {
-        done(error);
-      }
-
-    };
+    var completed = helper.expect(done, function(buffer) {
+      expect(log.join('|')).to.equal('action:one:.query|action:two:.two|assertion:one:.query|assertion:two:.two');
+    });
     
-    unit._then(completed, done);
+    unit._then(completed, helper.notRejected(done));
     unit
       .query('.query')
         .one()

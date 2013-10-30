@@ -1,6 +1,8 @@
 'use strict';
 
+var helper = require('./helper.js');
 var expect = require('chai').expect;
+
 var Dalek = require('../lib/dalek.js');
 
 describe('Dalek Infrastructure', function() {

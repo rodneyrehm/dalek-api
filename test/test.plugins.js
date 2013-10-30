@@ -1,6 +1,8 @@
 'use strict';
 
+var helper = require('./helper.js');
 var expect = require('chai').expect;
+
 var Dalek = require('../lib/dalek.js');
 var dalek = new Dalek();
 var log = [];
@@ -12,9 +14,11 @@ describe('Plugin Registration', function() {
     delete Dalek.Unit.prototype.one;
     delete Dalek.Unit.prototype.two;
     delete Dalek.Unit.prototype.scriptError;
+    delete Dalek.Unit.prototype.argTypes;
     delete Dalek.Assertions.prototype.one;
     delete Dalek.Assertions.prototype.two;
     delete Dalek.Assertions.prototype.scriptError;
+    delete Dalek.Assertions.prototype.argTypes;
   });
 
   it('should accept actions', function() {
@@ -29,7 +33,7 @@ describe('Plugin Registration', function() {
     expect(Dalek.Unit._actions.one).to.be.a('function');
     expect(Dalek.Unit._actions.two).to.be.a('function');
   });
-  
+
   it('should accept assertions', function() {
     expect(Dalek.Assertions.prototype.one).to.be.undefined;
     expect(Dalek.Assertions.prototype.two).to.be.undefined;
@@ -42,7 +46,7 @@ describe('Plugin Registration', function() {
     expect(Dalek.Unit._actions.one).to.be.a('function');
     expect(Dalek.Unit._actions.two).to.be.a('function');
   });
-  
+
   it('should reject duplicate actions', function() {
 
     try {
@@ -53,7 +57,7 @@ describe('Plugin Registration', function() {
     
     expect(false).to.be.ok;
   });
-  
+
   it('should reject duplicate assertions', function() {
 
     try {
@@ -64,22 +68,17 @@ describe('Plugin Registration', function() {
     
     expect(false).to.be.ok;
   });
-  
+
   it('should run in sequence', function(done) {
     log.length = 0;
     expect(log.join('|')).to.equal('');
     
     var unit = new Dalek.Unit(dalek);
-    var completed = function(buffer) {
-      try {
-        expect(log.join('|')).to.equal('action:one|action:two:foo|assertion:one|assertion:two:bar');
-        done();
-      } catch(error) {
-        done(error);
-      }
-    };
-
-    unit._then(completed, done);
+    var completed = helper.expect(done, function(buffer) {
+      expect(log.join('|')).to.equal('action:one|action:two:foo|assertion:one|assertion:two:bar');
+    });
+    
+    unit._then(completed, helper.notRejected(done));
     unit
       .one()
       .two('foo')
@@ -87,22 +86,17 @@ describe('Plugin Registration', function() {
       .assert.two('bar')
       .done();
   });
-  
+
   it('should support chaining assertions', function(done) {
     log.length = 0;
     expect(log.join('|')).to.equal('');
     
     var unit = new Dalek.Unit(dalek);
-    var completed = function(buffer) {
-      try {
-        expect(log.join('|')).to.equal('assertion:one|assertion:two:bar');
-        done();
-      } catch(error) {
-        done(error);
-      }
-    };
-
-    unit._then(completed, done);
+    var completed = helper.expect(done, function(buffer) {
+      expect(log.join('|')).to.equal('assertion:one|assertion:two:bar');
+    });
+    
+    unit._then(completed, helper.notRejected(done));
     unit
       .assert.chain()
         .one()
@@ -110,7 +104,7 @@ describe('Plugin Registration', function() {
       .end()
       .done();
   });
-  
+
   it('should fail for unknown actions', function() {
     var unit = new Dalek.Unit(dalek);
 
@@ -124,7 +118,7 @@ describe('Plugin Registration', function() {
     
     expect(false).to.be.ok;
   });
-  
+
   it('should fail for unknown assertions', function() {
     var unit = new Dalek.Unit(dalek);
 
@@ -138,7 +132,7 @@ describe('Plugin Registration', function() {
     
     expect(false).to.be.ok;
   });
-  
+
   it('should fail for script errors in actions', function(done) {
     log.length = 0;
     expect(log.join('|')).to.equal('');
@@ -146,25 +140,14 @@ describe('Plugin Registration', function() {
     dalek.addAction('scriptError', function(){ undefinedVariableAccess++; });
     
     var unit = new Dalek.Unit(dalek);
-    var completed = function(_error) {
-      try {
-        expect(_error.message).to.be.ok;
-        done();
-      } catch(error) {
-        done(error);
-      }
-    };
-    var error = function() {
-      done(new Error('ScriptError must reject unit'));
-    };
 
-    unit._then(error, completed);
+    unit._then(helper.message(done, 'ScriptError expected'), helper.error(done));
     unit
       .scriptError()
       .one()
       .done();
   });
-  
+
   it('should fail for script errors in assertions', function(done) {
     log.length = 0;
     expect(log.join('|')).to.equal('');
@@ -172,22 +155,12 @@ describe('Plugin Registration', function() {
     dalek.addAssertion('scriptError', function(){ undefinedVariableAccess++; });
     
     var unit = new Dalek.Unit(dalek);
-    var completed = function(_error) {
-      try {
-        expect(_error.message).to.be.ok;
-        done();
-      } catch(error) {
-        done(error);
-      }
-    };
-    var error = function() {
-      done(new Error('ScriptError must reject unit'));
-    };
 
-    unit._then(error, completed);
+    unit._then(helper.message(done, 'ScriptError expected'), helper.error(done));
     unit
       .assert.scriptError()
       .one()
       .done();
   });
+
 });
