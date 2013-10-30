@@ -19,6 +19,7 @@ By API we don't only understand the public, test-facing side of things, but also
 * how can Assertions be made available in the existing non-Assertion namespaces on top of Unit
 * how to integrate in DalekJS (or integrate DalekJS into this API, whatever)
 * how assertions (passing/failing) should be handled
+  * the current distinction (Error/string) in promise-rejection-handler stinks
 * how to make sure user didn't forget to call `.done()`
   * since it's declaration time and considerably fast a simple timeout of 5s should work well?
   * only exception are conditionals, where `.done()` is called asynchronously
