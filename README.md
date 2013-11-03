@@ -23,7 +23,17 @@ By API we don't only understand the public, test-facing side of things, but also
 * how to make sure user didn't forget to call `.done()`
   * since it's declaration time and considerably fast a simple timeout of 5s should work well?
   * only exception are conditionals, where `.done()` is called asynchronously
+* namespacing plugins (similar to `.assert`)
+  * `pointer`, `touch`, `wait`, … - provide quite a number of methods
+  * can namespacing help solve the problem of ambiguity (`elemen.click` vs. `pointer.click`)
+* keeping track of execution-state of declared actions and assertions
+  * in order to provide message `123 actions not run because of conditonal`
+* assertion `..is.greaterThan(123, "message")` message supposed to name the assertion or provide a message for error?
+  * "foo must be above lower bound" vs "foo is below lower bound"
 
+### Action Tracker ###
+
+* `wait.loaded` `wait.ready` to use `execute` to wait for body.onload and DOMContentLoaded respectively
 
 ## Solved Problems ##
 
