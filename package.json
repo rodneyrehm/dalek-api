@@ -8,7 +8,8 @@
   "dependencies": {
     "q": "~0.9.7",
     "chai": "~1.8.1",
-    "lodash": "~2.2.1"
+    "lodash": "~2.2.1",
+    "eventemitter2": "~0.4.13"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
