@@ -16,6 +16,7 @@ By API we don't only understand the public, test-facing side of things, but also
 * how will assertions access chai functions
   * how should we call these functions?
   * should they be officially registered as well?
+  * should they access `.buffer` by default?
 * how can Assertions be made available in the existing non-Assertion namespaces on top of Unit
 * how to integrate in DalekJS (or integrate DalekJS into this API, whatever)
 * how assertions (passing/failing) should be handled
@@ -30,6 +31,11 @@ By API we don't only understand the public, test-facing side of things, but also
   * in order to provide message `123 actions not run because of conditonal`
 * assertion `..is.greaterThan(123, "message")` message supposed to name the assertion or provide a message for error?
   * "foo must be above lower bound" vs "foo is below lower bound"
+* masking / encapsulating output of a plugin using other plugins
+  * `pluginClickExist` encapsulates `.click()` and `.assert.exists()`, are both actions to be logged? 
+  * if only the aggregate `pluginClickExist` is logged (and success-tracked), is it a register-time option?
+* should plugin content be examined (specifically for `.pipe()` calls)
+  * in order to prepare its actions for mapping aggregate/components?
 
 ### Action Tracker ###
 
