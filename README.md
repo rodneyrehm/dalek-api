@@ -13,6 +13,7 @@ By API we don't only understand the public, test-facing side of things, but also
 
 ## Issues to solve ##
 
+* should there be a `.repeat()` analogous to `.conditional()` to run a batch of tasks looped for some input values
 * how will assertions access chai functions
   * how should we call these functions?
   * should they be officially registered as well?
@@ -40,6 +41,7 @@ By API we don't only understand the public, test-facing side of things, but also
 ### Action Tracker ###
 
 * `wait.loaded` `wait.ready` to use `execute` to wait for body.onload and DOMContentLoaded respectively
+* `wait.resources` - to make sure all the stuff (images, etc.) have loaded (necessary for screenshots)
 
 ## Solved Problems ##
 
