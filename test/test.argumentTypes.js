@@ -23,7 +23,8 @@ describe('Argument types', function() {
     log.length = 0;
     expect(log.join('|')).to.equal('');
     
-    var unit = new Dalek.Unit(dalek);
+    //var unit = new Dalek.Unit(dalek);
+    var unit = dalek.unit();
     var completed = helper.expect(done, function(buffer) {
       expect(log.join('|')).to.equal('action:one');
     });

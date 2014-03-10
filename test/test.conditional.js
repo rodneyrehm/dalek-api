@@ -7,6 +7,12 @@ var Dalek = require('../lib/dalek.js');
 var dalek = new Dalek();
 var log = [];
 
+dalek.events.onAny(function() {
+  console.log("event", arguments);
+});
+
+dalek.emit("ficken");
+
 describe('Conditional Context', function() {
   
   before(function() {
@@ -29,7 +35,9 @@ describe('Conditional Context', function() {
     
     var unit = new Dalek.Unit(dalek);
     var completed = helper.expect(done, function(buffer) {
+console.log("ficken")
       expect(log.join('|')).to.equal('action:one|action:two|assertion:one|action:two|assertion:two');
+      done();
     });
     
     unit._then(completed, helper.notRejected(done));
@@ -37,13 +45,14 @@ describe('Conditional Context', function() {
       .conditional(function(){ return true; })
         .one()
         .two()
-        .assert.one()
       .conditional()
-      .conditional(function(){ return false; })
-        .one()
-      .conditional()
-      .two()
-      .assert.two()
+        // .assert.one()
+      // .conditional()
+      // .conditional(function(){ return false; })
+      //   .one()
+      // .conditional()
+      // .two()
+      // .assert.two()
       .done();
   });
     
