@@ -120,7 +120,7 @@ We should also add everything we know about the context to the phase attribute (
 
 As the `Dalek.run()` method takes a list of actions to perform (string for a registered plugin, object for additional config, function for non-sugar-bare-access) we can provide namespaced base actions:
 
-```
+```js
 Dalek.run([
   // returns a curried function for convenience
   Dalek.action.click("#some-element"),
@@ -136,7 +136,7 @@ I very much like the idea behind [Marionette's bindUIElements()](https://github.
 
 I would drop the `.query()` method in favor of a test-wide accessible map of elements that are frequently used. That way you also have your selectors centralized and organized.
 
-```
+```js
 Dalek.ui({
   someElement: '#some-element'
   allDivs: 'div'
@@ -162,7 +162,7 @@ The map could be made a little more complex to allow the author to mark selector
 
 As we've gone away from burdening the user with a chained API, we can keep a simple list of actions to perform one after the other. There is no need for wicked promise passing. That means that the simple orchestration of actions can be reduced to the following:
 
-```
+```js
 Dalek.test('closes-with-x', function(options) {
   return [
     Dalek.action.click(options.button || "#some-element"),
@@ -225,7 +225,7 @@ module.exports = function(dalek, assert, action, wait) {
   dalek.assert('value', ['element', 'value'], function(options) {
     function validate(element) {
       var assertion = dalek.Assertion("Attribute value of " + element.name + " equals '" + options.value + "'");
-      element.getAttribute('value).then(function(_actualValue) {
+      element.getAttribute('value').then(function(_actualValue) {
         if (_actualValue === options.value) {
           assertion.resolve();
         } else {
